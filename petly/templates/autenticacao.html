@@ -1,0 +1,98 @@
+{% load static %} <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Petly</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #e9ecef; /* Cor de fundo cinza suave */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Ocupa 100% da altura da tela */
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px; /* Largura máxima do cartão */
+            border-radius: 15px; /* Bordas arredondadas */
+        }
+        .login-header {
+            background-color: #e9e5db; /* Azul Bootstrap (Pode mudar se quiser) */
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn-custom {
+        /* Coloque a MESMA cor do topo aqui */
+        background-color: #e9e5db; 
+        border-color: #e9e5db;
+        color: white;
+    }
+
+        .btn-custom:hover {
+        filter: brightness(90%); /* Escurece automaticamente 10% */
+        color: white;
+    }        
+        
+    </style>
+</head>
+<body>
+
+    <div class="card login-card shadow-lg border-0">
+        <div class="login-header">
+          <img src="{% static 'img/logo.png' %}" alt="Logo Petly" style="max-width: 150px; height: auto;">
+            
+            <h3 class="mt-2">Petly</h3>           
+            <small>Bem-vindo de volta!</small>
+        </div>
+
+        <div class="card-body p-4">
+            
+            {% if mensagem %}
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                ⚠️ {{ mensagem }}
+            </div>
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                
+                <div class="form-floating mb-3">
+                    <input type="text" name="usuario" class="form-control" id="floatingInput" placeholder="Usuário" required>
+                    <label for="floatingInput">Nome de Usuário</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" name="senha" class="form-control" id="floatingPassword" placeholder="Senha" required>
+                    <label for="floatingPassword">Senha</label>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-custom btn-lg">Entrar</button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <span class="text-muted">ou</span>
+                </div>
+
+                <div class="d-grid mt-3">
+                  <a href="{% url 'cadastro' %}" class="btn btn-outline-secondary">Criar nova conta</a>
+                </div>
+          
+            </form>
+        </div>
+        
+        <div class="card-footer text-center py-3 bg-white border-0 rounded-bottom">
+            <small class="text-muted">Projeto de Programação Web</small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
