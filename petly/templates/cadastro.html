@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Petly</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #e9ecef; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .login-card { width: 100%; max-width: 400px; border-radius: 15px; border: none; }
+        .login-header {
+            background-color: #e9e5db; /* MESMA COR DO SEU LOGIN */
+            color: white; border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 20px; text-align: center;
+        }
+        .btn-custom { background-color: #e9e5db; border-color: #e9e5db; color: white; }
+        .btn-custom:hover { filter: brightness(90%); color: white; }
+        
+        /* Ajuste para os campos do Django ficarem bonitos */
+        input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; }
+        ul { list-style: none; padding: 0; color: red; font-size: 0.8rem; } /* Erros de senha */
+        .helptext { display: none; } /* Esconde textos de ajuda chatos do Django */
+    </style>
+</head>
+<body>
+
+    <div class="card login-card shadow-lg">
+        <div class="login-header">
+            <h3 class="mb-0">Novo Usuário</h3>
+            <small>Junte-se ao Petly!</small>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-custom btn-lg">Cadastrar</button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'login' %}" class="text-decoration-none text-secondary">Já tenho conta</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
