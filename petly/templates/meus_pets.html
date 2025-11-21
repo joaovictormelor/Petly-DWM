@@ -1,10 +1,15 @@
-{% extends 'base.html' %} {% block title %}Petly - Lista de Pets{% endblock %} {% block content %} <h1 class="mb-4 text-center">Pets Disponíveis para Adoção</h1>
+{% extends 'base.html' %}
+
+{% block title %}Meus Pets - Petly{% endblock %}
+
+{% block content %}
+
+    <h1 class="mb-4 text-center">Meus Pets Cadastrados</h1>
 
     <div class="row">
         {% for pet in pets %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                {% if pet.foto %}
+            <div class="card h-100 shadow-sm border-primary"> {% if pet.foto %}
                     <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
                 {% else %}
                     <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
@@ -16,23 +21,22 @@
                     <h5 class="card-title fw-bold">{{ pet.nome }}</h5>
                     <p class="card-text">
                         <strong>Espécie:</strong> {{ pet.especie }}<br>
-                        <strong>Idade:</strong> {{ pet.idade }} anos<br>
-                        <strong>Porte:</strong> {{ pet.porte }}
+                        <strong>Idade:</strong> {{ pet.idade }} anos
                     </p>
-                    <p class="card-text text-muted">{{ pet.descricao|truncatechars:50 }}</p>
                 </div>
-                <div class="card-footer bg-white border-top-0 d-grid">
-                    <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                <div class="card-footer bg-white border-top-0 d-grid gap-2">
+                    <a href="#" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    <a href="#" class="btn btn-danger btn-sm">🗑️ Excluir</a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <div class="col-12">
-            <div class="alert alert-warning text-center">
-                Nenhum pet cadastrado ainda.
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                Você ainda não cadastrou nenhum pet.
             </div>
         </div>
         {% endfor %}
     </div>
 
-{% endblock %} ```
+{% endblock %}

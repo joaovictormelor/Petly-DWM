@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Petly{% endblock %}</title>
+    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <style>
+        .navbar-custom { background-color: #e9ecef; }
+        /* Adicione outros CSS globais aqui se precisar */
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'listar_pets' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+                Petly
+            </a>
+            
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <span class="navbar-text text-dark me-3">Olá, {{ user.username }}!</span>
+                    <a href="{% url 'meus_pets' %}" class="btn btn-outline-primary btn-sm me-2">Meus Pets</a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Sair</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Entrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
