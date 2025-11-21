@@ -4,10 +4,27 @@
 
 {% block content %}
 
+    <style>
+        .btn-outline-add {
+            /* Estado Normal */
+            color: #cfcfcf;  /* Cor do texto e da borda */
+            border: 2px solid #dbe4a9; 
+            background-color: transparent; /* Fundo transparente */
+            font-weight: bold;
+            transition: all 0.3s ease; /* Efeito suave na transição */
+        }
+
+        /* Estado Hover (Quando passa o mouse) */
+        .btn-outline-add:hover {
+            color: white; /* Texto fica branco */
+            background-color: #dbe4a9; /* Fundo preenche com a cor */
+        }
+    </style>
+
     <h1 class="mb-4 text-center">Meus Pets Cadastrados</h1>
 
     <div class="text-center mb-4">
-        <a href="{% url 'novo_pet' %}" class="btn btn-lg text-white" style="background-color: #cfcfcf; border: none;">
+        <a href="{% url 'novo_pet' %}" class="btn btn-lg btn-outline-add">
             + Adicionar Novo Pet
         </a>
     </div>
@@ -15,7 +32,8 @@
     <div class="row">
         {% for pet in pets %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-primary"> {% if pet.foto %}
+            <div class="card h-100 shadow-sm" style="border-color: #cfcfcf;"> 
+                {% if pet.foto %}
                     <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
                 {% else %}
                     <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">

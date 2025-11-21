@@ -11,6 +11,29 @@
     
     <style>
         .navbar-custom { background-color: #ede8d0; }
+
+        /* --- NOVO ESTILO DO BOTÃO DA BARRA --- */
+        .btn-nav-custom {
+            color: #95b634; /* Cor do texto/borda */
+            border: 2px solid #95b634;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        /* Efeito Hover (Mouse em cima) */
+        .btn-nav-custom:hover {
+            color: white;
+            background-color: #95b634;
+        }
+
+        /* Estado Ativo (Quando estiver na página) */
+        .btn-nav-custom.active {
+            color: white;
+            background-color: #95b634;
+            /* Opcional: uma sombra ou borda diferente para destacar que está selecionado */
+            border-color: #95b634; 
+        }
     </style>
 </head>
 <body>
@@ -25,7 +48,11 @@
             <div class="d-flex align-items-center">
                 {% if user.is_authenticated %}
                     <span class="navbar-text text-dark me-3">Olá, {{ user.username }}!</span>
-                    <a href="{% url 'meus_pets' %}" class="btn btn-outline-primary btn-sm me-2">Meus Pets</a>
+                    
+                    <a href="{% url 'meus_pets' %}" class="btn btn-nav-custom btn-sm me-2 {% if request.resolver_match.url_name == 'meus_pets' %}active{% endif %}">
+                        Meus Pets
+                    </a>
+
                     <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Sair</a>
                 {% else %}
                     <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Entrar</a>
