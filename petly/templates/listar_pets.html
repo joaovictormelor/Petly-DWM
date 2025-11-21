@@ -1,56 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Petly - Lista de Pets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends 'base.html' %} {% block title %}Petly - Lista de Pets{% endblock %} {% block content %} <h1 class="mb-4 text-center">Pets Disponíveis para Adoção</h1>
 
-    <nav class="navbar navbar-dark bg-primary mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="#">🐾 Petly</a>
-            <span class="navbar-text text-white">Olá, {{ user.username }}!</span>
-            <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Sair</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <h1 class="mb-4">Pets Disponíveis para Adoção</h1>
-
-        <div class="row">
-            {% for pet in pets %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if pet.foto %}
-                        <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
-                    {% else %}
-                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                            <span>Sem Foto 📷</span>
-                        </div>
-                    {% endif %}
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{ pet.nome }}</h5>
-                        <p class="card-text">
-                            <strong>Espécie:</strong> {{ pet.especie }}<br>
-                            <strong>Idade:</strong> {{ pet.idade }} anos<br>
-                            <strong>Porte:</strong> {{ pet.porte }}
-                        </p>
-                        <p class="card-text text-muted">{{ pet.descricao|truncatechars:50 }}</p>
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if pet.foto %}
+                    <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>Sem Foto 📷</span>
                     </div>
-                    <div class="card-footer d-grid">
-                        <a href="#" class="btn btn-outline-primary">Ver Detalhes</a>
-                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ pet.nome }}</h5>
+                    <p class="card-text">
+                        <strong>Espécie:</strong> {{ pet.especie }}<br>
+                        <strong>Idade:</strong> {{ pet.idade }} anos<br>
+                        <strong>Porte:</strong> {{ pet.porte }}
+                    </p>
+                    <p class="card-text text-muted">{{ pet.descricao|truncatechars:50 }}</p>
+                </div>
+                <div class="card-footer bg-white border-top-0 d-grid">
+                    <a href="#" class="btn btn-primary">Ver Detalhes</a>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-12">
-                <div class="alert alert-warning">Nenhum pet cadastrado ainda. Vá no admin e adicione alguns!</div>
-            </div>
-            {% endfor %}
         </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                Nenhum pet cadastrado ainda.
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
-</body>
-</html>
+{% endblock %} ```

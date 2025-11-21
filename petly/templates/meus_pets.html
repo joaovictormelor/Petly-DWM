@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Pets - Petly{% endblock %}
+
+{% block content %}
+
+    <h1 class="mb-4 text-center">Meus Pets Cadastrados</h1>
+
+    <div class="text-center mb-4">
+        <a href="{% url 'novo_pet' %}" class="btn btn-lg text-white" style="background-color: #cfcfcf; border: none;">
+            + Adicionar Novo Pet
+        </a>
+    </div>
+
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-primary"> {% if pet.foto %}
+                    <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>Sem Foto 📷</span>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ pet.nome }}</h5>
+                    <p class="card-text">
+                        <strong>Espécie:</strong> {{ pet.especie }}<br>
+                        <strong>Idade:</strong> {{ pet.idade }} anos
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-top-0 d-grid gap-2">
+                    <a href="#" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    <a href="#" class="btn btn-danger btn-sm">🗑️ Excluir</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                Você ainda não cadastrou nenhum pet.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

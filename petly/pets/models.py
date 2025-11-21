@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -14,6 +15,8 @@ class Pet(models.Model):
         ('medio', 'Médio'),
         ('grande', 'Grande'),
     ]
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     nome = models.CharField(max_length=100)
     especie = models.CharField(max_length=20, choices=ESPECIE_CHOICES)
