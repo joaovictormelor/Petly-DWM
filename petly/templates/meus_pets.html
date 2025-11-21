@@ -6,6 +6,12 @@
 
     <h1 class="mb-4 text-center">Meus Pets Cadastrados</h1>
 
+    <div class="text-center mb-4">
+        <a href="{% url 'novo_pet' %}" class="btn btn-lg text-white" style="background-color: #cfcfcf; border: none;">
+            + Adicionar Novo Pet
+        </a>
+    </div>
+
     <div class="row">
         {% for pet in pets %}
         <div class="col-md-4 mb-4">
