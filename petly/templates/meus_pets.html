@@ -5,19 +5,45 @@
 {% block content %}
 
     <style>
+        /* --- BOTÃO ADICIONAR (LARANJA PETLY) --- */
         .btn-outline-add {
-            /* Estado Normal */
-            color: #cfcfcf;  /* Cor do texto e da borda */
-            border: 2px solid #dbe4a9; 
-            background-color: transparent; /* Fundo transparente */
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            background-color: transparent;
             font-weight: bold;
-            transition: all 0.3s ease; /* Efeito suave na transição */
+            transition: all 0.3s ease;
+        }
+        .btn-outline-add:hover {
+            color: white;
+            background-color: #ff6b6b;
         }
 
-        /* Estado Hover (Quando passa o mouse) */
-        .btn-outline-add:hover {
-            color: white; /* Texto fica branco */
-            background-color: #dbe4a9; /* Fundo preenche com a cor */
+        /* --- NOVO: BOTÃO EDITAR (AMARELO/AMBAR) --- */
+        .btn-outline-edit {
+            color: #ffc107; /* Amarelo escuro */
+            border: 2px solid #ffc107;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-edit:hover {
+            color: white; /* Texto branco ao passar o mouse */
+            background-color: #ffc107;
+            /* Pequeno truque: sombra no texto para ler melhor no amarelo */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+        }
+
+        /* --- NOVO: BOTÃO EXCLUIR (VERMELHO) --- */
+        .btn-outline-delete {
+            color: #dc3545; /* Vermelho padrão de erro */
+            border: 2px solid #dc3545;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-delete:hover {
+            color: white;
+            background-color: #dc3545;
         }
     </style>
 
@@ -32,7 +58,7 @@
     <div class="row">
         {% for pet in pets %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm" style="border-color: #cfcfcf;"> 
+            <div class="card h-100 shadow-sm" style="border-color: #ff6b6b;"> 
                 {% if pet.foto %}
                     <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
                 {% else %}
@@ -48,16 +74,24 @@
                         <strong>Idade:</strong> {{ pet.idade }} anos
                     </p>
                 </div>
+                
                 <div class="card-footer bg-white border-top-0 d-grid gap-2">
-                    <a href="#" class="btn btn-warning btn-sm">✏️ Editar</a>
-                    <a href="#" class="btn btn-danger btn-sm">🗑️ Excluir</a>
+                    
+                    <a href="{% url 'editar_pet' pet.id %}" class="btn btn-sm btn-outline-edit">
+                        ✏️ Editar
+                    </a>
+                    
+                    <a href="{% url 'excluir_pet' pet.id %}" class="btn btn-sm btn-outline-delete">
+                        🗑️ Excluir
+                    </a>
+
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center">
             <div class="alert alert-info">
-                Você ainda não cadastrou nenhum pet.
+                Você ainda não tem nenhum pet para adoção.
             </div>
         </div>
         {% endfor %}
