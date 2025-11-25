@@ -5,6 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PetForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from rest_framework import generics
+from .serializers import PetSerializer
+
 
 def listar_pets(request):
     pets = Pet.objects.all()
@@ -57,3 +60,7 @@ class ExcluirPet(LoginRequiredMixin, DeleteView):
     
     def get_queryset(self):
         return Pet.objects.filter(usuario=self.request.user)
+    
+class ListaPetsAPI(generics.ListAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
