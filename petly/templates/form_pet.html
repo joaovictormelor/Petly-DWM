@@ -7,7 +7,13 @@
     <div class="col-md-6">
         <div class="card shadow">
             <div class="card-header text-white" style="background-color: #ede8d0;">
-                <h3 class="mb-0">🐾 Cadastrar Novo Pet</h3>
+            <h3 class="mb-0">
+                {% if form.instance.pk %}
+                    ✏️ Editar Pet
+                {% else %}
+                    🐾 Cadastrar Novo Pet
+                {% endif %}
+            </h3>
             </div>
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
@@ -24,8 +30,12 @@
                     {% endfor %}
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-lg text-white" style="background-color: #ede8d0; border: none;">
-                            Salvar Pet
+                        <button type="submit" class="btn btn-lg btn-outline-custom w-100">
+                            {% if form.instance.pk %}
+                                Salvar Alterações
+                            {% else %}
+                                Cadastrar Pet
+                            {% endif %}
                         </button>
                         <a href="{% url 'meus_pets' %}" class="btn btn-outline-secondary">Cancelar</a>
                     </div>
