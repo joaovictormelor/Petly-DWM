@@ -3,7 +3,7 @@ from .models import Pet
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PetForm
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from rest_framework import generics
 from .serializers import PetSerializer
@@ -60,6 +60,11 @@ class ExcluirPet(LoginRequiredMixin, DeleteView):
     
     def get_queryset(self):
         return Pet.objects.filter(usuario=self.request.user)
+    
+class DetalhesPet(DetailView):
+    model = Pet
+    template_name = 'detalhes_pet.html'
+    context_object_name = 'pet'
     
 class ListaPetsAPI(generics.ListAPIView):
     queryset = Pet.objects.all()

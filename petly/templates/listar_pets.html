@@ -22,7 +22,7 @@
                     <p class="card-text text-muted">{{ pet.descricao|truncatechars:50 }}</p>
                 </div>
                 <div class="card-footer bg-white border-top-0 d-grid">
-                    <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                    <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-primary">Ver Detalhes</a>
                 </div>
             </div>
         </div>
