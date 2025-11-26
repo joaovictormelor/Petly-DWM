@@ -17,7 +17,8 @@
                     <p class="card-text">
                         <strong>Espécie:</strong> {{ pet.especie }}<br>
                         <strong>Idade:</strong> {{ pet.idade }} anos<br>
-                        <strong>Porte:</strong> {{ pet.porte }}
+                        <strong>Porte:</strong> {{ pet.porte }} <br>
+                        <strong>Local:</strong> {{ pet.usuario.perfil.cidade }}-{{ pet.usuario.perfil.uf }}
                     </p>
                     <p class="card-text text-muted">{{ pet.descricao|truncatechars:50 }}</p>
                 </div>
