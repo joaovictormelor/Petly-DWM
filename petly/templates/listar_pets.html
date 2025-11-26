@@ -1,5 +1,42 @@
 {% extends 'base.html' %} {% block title %}Petly - Lista de Pets{% endblock %} {% block content %} <h1 class="mb-4 text-center">Pets Disponíveis para Adoção</h1>
 
+<div class="card mb-4 shadow-sm border-0 bg-light">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-end">
+            
+            <div class="col-md-5">
+                <label for="especie-select" class="form-label fw-bold small mb-0">Espécie</label>
+                <select name="especie" id="especie-select" class="form-select">
+                    <option value="">Todas as Espécies</option>
+                    <option value="cachorro" {% if request.GET.especie == 'cachorro' %}selected{% endif %}>Cachorro</option>
+                    <option value="gato" {% if request.GET.especie == 'gato' %}selected{% endif %}>Gato</option>
+                    <option value="outro" {% if request.GET.especie == 'outro' %}selected{% endif %}>Outros</option>
+                </select>
+            </div>
+
+            <div class="col-md-5">
+                <label for="porte-select" class="form-label fw-bold small mb-0">Porte</label>
+                <select name="porte" id="porte-select" class="form-select">
+                    <option value="">Todos os Tamanhos</option>
+                    <option value="pequeno" {% if request.GET.porte == 'pequeno' %}selected{% endif %}>Pequeno</option>
+                    <option value="medio" {% if request.GET.porte == 'medio' %}selected{% endif %}>Médio</option>
+                    <option value="grande" {% if request.GET.porte == 'grande' %}selected{% endif %}>Grande</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+            
+            {% if request.GET.especie or request.GET.porte %}
+            <div class="col-12 text-center mt-2">
+                <a href="{% url 'listar_pets' %}" class="text-decoration-none text-muted small">Limpar Filtros ✖</a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
     <div class="row">
         {% for pet in pets %}
         <div class="col-md-4 mb-4">

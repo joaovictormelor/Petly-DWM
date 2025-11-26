@@ -13,7 +13,16 @@ def listar_pets(request):
     pets = Pet.objects.all()
 
     if request.user.is_authenticated:
-        pets = pets.exclude(usuario=request.user)    
+        pets = pets.exclude(usuario=request.user)
+
+    busca_especie = request.GET.get('especie')
+    busca_porte = request.GET.get('porte')
+    
+    if busca_especie and busca_especie != '':
+        pets = pets.filter(especie=busca_especie)
+
+    if busca_porte and busca_porte != '':
+        pets = pets.filter(porte=busca_porte)   
     
     contexto = {
         'pets': pets
