@@ -37,6 +37,14 @@
                         <li class="list-group-item"><strong>Espécie:</strong> {{ pet.especie|title }}</li>
                         <li class="list-group-item"><strong>Porte:</strong> {{ pet.porte|title }}</li>
                         <li class="list-group-item"><strong>Idade:</strong> {{ pet.idade }} anos</li>
+
+                    {% if pet.usuario.perfil.cidade %}
+                        <li class="list-group-item">
+                            <strong>Localização:</strong> 
+                            {{ pet.usuario.perfil.cidade }} - {{ pet.usuario.perfil.uf }}
+                        </li>
+                    {% endif %}    
+
                     </ul>
 
                     <h5 class="fw-bold">Sobre o {{ pet.nome }}:</h5>
