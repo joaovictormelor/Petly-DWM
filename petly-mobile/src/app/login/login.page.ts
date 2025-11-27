@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
         console.log("Login autorizado!", resposta);
         this.exibirMensagem("Bem-vindo(a) " + resposta.nome + "!", "success");
         localStorage.setItem('user_id', resposta.user_id);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tabs/home']);
       },
       error: async (erro) => {
         await loading.dismiss();

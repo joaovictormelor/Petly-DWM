@@ -36,28 +36,45 @@ export class CadastrarPetPage implements OnInit {
 
   ngOnInit() { }
 
-  async salvarPet() {
+async salvarPet() {
     const loader = await this.loading.create({ message: 'Salvando...' });
     await loader.present();
 
-    // ⚠️ AQUI ESTÁ O TRUQUE:
-    // Estamos enviando os dados para a API
-    this.http.post(this.baseUrl + '/pets/api/criar/', this.pet).subscribe({
+    // 1. PEGAMOS O ID DO USUÁRIO SALVO NO LOGIN
+    const idUsuario = localStorage.getItem('user_id');
+
+    // 2. MONTAMOS O PACOTE COMPLETO
+    // O ...this.pet copia os dados do formulário (nome, idade, etc)
+    // E adicionamos o campo 'usuario' manualmente
+    const dadosParaEnviar = {
+      ...this.pet,
+      usuario: idUsuario
+    };
+
+    console.log('Enviando:', dadosParaEnviar); // Para você conferir no console
+
+    this.http.post(this.baseUrl + '/pets/api/criar/', dadosParaEnviar).subscribe({
       next: async (res) => {
         await loader.dismiss();
         this.exibirMensagem('Pet cadastrado com sucesso!');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tabs/meus-pets']); // Volta para a aba certa
       },
       error: async (erro) => {
         await loader.dismiss();
         console.error(erro);
-        this.exibirMensagem('Erro ao salvar. Verifique se está logado.', 'danger');
+        this.exibirMensagem('Erro ao salvar.', 'danger');
       }
     });
   }
 
   async exibirMensagem(msg: string, cor: string = 'success') {
-    const t = await this.toast.create({ message: msg, color: cor, duration: 2000 });
+    const t = await this.toast.create({ 
+      message: msg, 
+      color: cor, 
+      duration: 2000,
+      position: 'bottom'
+    });
     t.present();
   }
+
 }
