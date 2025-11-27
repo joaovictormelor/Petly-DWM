@@ -34,11 +34,14 @@ export class HomePage implements OnInit {
 
   ngOnInit() {}
 
-  buscarPets() {
+buscarPets() {
+    const meuId = localStorage.getItem('user_id');
+
     this.http.get<any[]>(this.apiUrl).subscribe({
       next: (dados) => {
-        console.log("Pets carregados:", dados);
-        this.pets = dados;
+        this.pets = dados.filter(pet => pet.usuario != meuId);
+        
+        console.log("Pets filtrados:", this.pets);
       },
       error: (erro) => {
         console.error("Erro ao buscar pets:", erro);
