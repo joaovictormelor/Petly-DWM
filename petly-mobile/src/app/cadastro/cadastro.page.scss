@@ -1,0 +1,27 @@
+.cadastro-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%; 
+}
+
+.titulo-petly {
+  color: #95b634; 
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.btn-laranja {
+  --background: #ede8d0;       
+  --background-hover: #d1cccb; 
+  --color: #000000;            
+  --border-radius: 8px;
+  font-weight: bold;
+}
+
+ion-card {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  margin-top: 20px;
+}

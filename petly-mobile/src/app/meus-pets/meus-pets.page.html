@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gerenciar Meus Pets</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+
+<ion-card *ngFor="let pet of meusPets">
+    <ion-item lines="none">
+      <ion-thumbnail slot="start">
+        <img [src]="ajustarImagem(pet.foto)" *ngIf="pet.foto">
+        <ion-icon name="paw-outline" *ngIf="!pet.foto"></ion-icon>
+      </ion-thumbnail>
+      
+      <ion-label>
+        <h2>{{ pet.nome }}</h2>
+        <p>{{ pet.especie }}</p>
+      </ion-label>
+
+      <div slot="end">
+        <ion-button fill="clear" color="secondary" [routerLink]="['/editar-pet', pet.id]">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="danger" (click)="confirmarExclusao(pet)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+    </ion-item>
+  </ion-card>
+
+  <div *ngIf="meusPets.length === 0" class="ion-text-center ion-padding">
+    <p>Você não tem pets cadastrados para doação.</p>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/cadastrar-pet">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

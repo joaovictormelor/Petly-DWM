@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <div class="cadastro-container">
+    <div class="ion-text-center">
+      <h1 class="titulo-petly">Criar Conta</h1>
+      <p>Junte-se ao Petly!</p>
+    </div>
+
+    <ion-card>
+      <ion-card-content>
+        
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="floating">Usuário</ion-label>
+          <ion-input type="text" [(ngModel)]="usuario"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="floating">Telefone / WhatsApp</ion-label>
+          <ion-input type="tel" [(ngModel)]="telefone"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="floating">Senha</ion-label>
+          <ion-input type="password" [(ngModel)]="senha"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="fazerCadastro()" class="btn-laranja ion-margin-top">
+          CADASTRAR
+        </ion-button>
+
+        <ion-button expand="block" fill="clear" color="medium" (click)="voltar()">
+          Voltar para Login
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

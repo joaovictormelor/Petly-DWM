@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Petly</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9ecef;
+            min-height: 100vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 900px; 
+            border-radius: 15px;
+            border: none;
+            overflow: hidden;
+        }
+
+        .login-header {
+            background-color: #e9e5db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .side-image {
+            height: 100%;
+            width: 100%;
+            object-fit: cover; 
+            object-position: center;
+        }
+
+        .btn-custom { background-color: #e9e5db; border-color: #e9e5db; color: white; }
+        .btn-custom:hover { filter: brightness(90%); color: white; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; }
+        ul { list-style: none; padding: 0; color: red; font-size: 0.8rem; }
+        .helptext { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card login-card shadow-lg">
+        <div class="row g-0 h-100">
+            
+            <div class="col-md-7">
+                <div class="login-header">
+                    <h3 class="mb-0">Novo Usuário</h3>
+                    <small>Junte-se ao Petly!</small>
+                </div>
+
+                <div class="card-body p-4 p-md-5"> <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-custom btn-lg">Cadastrar</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'login' %}" class="text-decoration-none text-secondary">Já tenho conta</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 d-none d-md-block">
+                <img src="{% static 'img/animal_cadastro.jpg' %}" alt="Bem-vindo ao Petly" class="side-image"> 
+                     alt="Bem-vindo ao Petly" 
+                     class="side-image">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cep').addEventListener('blur', function() {
+            var cep = this.value.replace(/\D/g, ''); 
+            if (cep != "") {
+                var validacep = /^[0-9]{8}$/;
+                if(validacep.test(cep)) {
+                    document.getElementById('bairro').value="...";
+                    document.getElementById('cidade').value="...";
+                    document.getElementById('uf').value="...";
+                    var script = document.createElement('script');
+                    script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback_perfil';
+                    document.body.appendChild(script);
+                } else {
+                    alert("Formato de CEP inválido.");
+                }
+            }
+        });
+
+        function meu_callback_perfil(conteudo) {
+            if (!("erro" in conteudo)) {
+                document.getElementById('bairro').value=(conteudo.bairro);
+                document.getElementById('cidade').value=(conteudo.localidade);
+                document.getElementById('uf').value=(conteudo.uf);
+            } else {
+                alert("CEP não encontrado. Digite o endereço manualmente.");
+                document.getElementById('bairro').value=("");
+                document.getElementById('cidade').value=("");
+                document.getElementById('uf').value=("");
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ pet.nome }} - Detalhes{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <a href="{% url 'listar_pets' %}" class="btn btn-outline-secondary btn-sm mb-4">
+        ← Voltar para a lista
+    </a>
+
+    <div class="card shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-6">
+                {% if pet.foto %}
+                    <img src="{{ pet.foto.url }}" class="img-fluid rounded-start h-100" alt="{{ pet.nome }}" style="object-fit: cover; min-height: 400px; width: 100%;">
+                {% else %}
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100" style="min-height: 400px;">
+                        <span class="fs-3">Sem Foto 📷</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h1 class="card-title fw-bold display-5">{{ pet.nome }}</h1>
+                        {% if pet.adotado %}
+                            <span class="badge bg-success fs-6">Adotado</span>
+                        {% else %}
+                            <span class="badge bg-primary fs-6">Disponível</span>
+                        {% endif %}
+                    </div>
+
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><strong>Espécie:</strong> {{ pet.especie|title }}</li>
+                        <li class="list-group-item"><strong>Porte:</strong> {{ pet.porte|title }}</li>
+                        <li class="list-group-item"><strong>Idade:</strong> {{ pet.idade }} anos</li>
+
+                    {% if pet.usuario.perfil.cidade %}
+                        <li class="list-group-item">
+                            <strong>Localização:</strong> 
+                            {{ pet.usuario.perfil.cidade }} - {{ pet.usuario.perfil.uf }}
+                        </li>
+                    {% endif %}    
+
+                    </ul>
+
+                    <h5 class="fw-bold">Sobre o {{ pet.nome }}:</h5>
+                    <p class="card-text text-muted mb-4">
+                        {{ pet.descricao|linebreaks }}
+                    </p>
+
+<div class="alert alert-light border p-3">
+                        <h6 class="fw-bold mb-3">Informações de Contato para Adoção:</h6>
+                        
+                        <p class="mb-1">
+                            Responsável: {{ pet.usuario.username }}
+                        </p>
+                        
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <strong>✉️ Email:</strong> <a href="mailto:{{ pet.usuario.email }}">{{ pet.usuario.email }}</a>
+                            </li>
+                            
+                            {% if pet.usuario.perfil.telefone %}
+                            <li>
+                                <strong>📞 Telefone:</strong> {{ pet.usuario.perfil.telefone }}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Pets - Petly{% endblock %}
+
+{% block content %}
+
+    <style>
+        .btn-outline-add {
+            color: #95b634;
+            border: 2px solid #95b634;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-add:hover {
+            color: white;
+            background-color: #95b634;
+        }
+
+        .btn-outline-edit {
+            color: #ffc107;
+            border: 2px solid #ffc107;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-edit:hover {
+            color: white;
+            background-color: #ffc107;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+        }
+
+        .btn-outline-delete {
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            background-color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-delete:hover {
+            color: white;
+            background-color: #dc3545;
+        }
+    </style>
+
+    <h1 class="mb-4 text-center">Meus Pets Cadastrados</h1>
+
+    <div class="text-center mb-4">
+        <a href="{% url 'novo_pet' %}" class="btn btn-lg btn-outline-add">
+            + Adicionar um Pet para adoção
+        </a>
+    </div>
+
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm" style="border-color: #ff6b6b;"> 
+                {% if pet.foto %}
+                    <img src="{{ pet.foto.url }}" class="card-img-top" alt="{{ pet.nome }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>Sem Foto 📷</span>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ pet.nome }}</h5>
+                    <p class="card-text">
+                        <strong>Espécie:</strong> {{ pet.especie }}<br>
+                        <strong>Idade:</strong> {{ pet.idade }} anos
+                    </p>
+                </div>
+                
+                <div class="card-footer bg-white border-top-0 d-grid gap-2">
+                    
+                    <a href="{% url 'editar_pet' pet.id %}" class="btn btn-sm btn-outline-edit">
+                        ✏️ Editar
+                    </a>
+                    
+                    <a href="{% url 'excluir_pet' pet.id %}" class="btn btn-sm btn-outline-delete">
+                        🗑️ Excluir
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                Você ainda não tem nenhum pet para adoção.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

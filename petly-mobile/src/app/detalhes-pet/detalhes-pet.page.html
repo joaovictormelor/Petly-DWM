@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="!pet" class="ion-text-center ion-padding ion-margin-top">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <div *ngIf="pet">
+    
+    <div class="foto-destaque">
+      <img [src]="ajustarImagem(pet.foto)" *ngIf="pet.foto">
+      <div class="sem-foto-grande" *ngIf="!pet.foto">
+        <ion-icon name="paw" size="large"></ion-icon>
+      </div>
+    </div>
+
+    <div class="ion-padding">
+      <h1 class="titulo-pet">{{ pet.nome }}</h1>
+      
+      <ion-chip color="secondary">
+        <ion-label>{{ pet.especie }}</ion-label>
+      </ion-chip>
+      <ion-chip color="tertiary">
+        <ion-label>{{ pet.porte }}</ion-label>
+      </ion-chip>
+      <ion-chip color="warning">
+        <ion-label>{{ pet.idade }} anos</ion-label>
+      </ion-chip>
+
+      <p class="descricao">{{ pet.descricao }}</p>
+
+      <ion-list lines="full" class="ion-margin-top lista-contato">
+        <ion-list-header>
+          <ion-label>Informações de Contato</ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-icon name="location-outline" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            <h3>Localização</h3>
+            <p>{{ pet.cidade }} - {{ pet.uf }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="call-outline" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            <h3>Telefone</h3>
+            <p>{{ pet.dono_telefone }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            <h3>Email</h3>
+            <p>{{ pet.dono_email }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      </div>
+  </div>
+</ion-content>
