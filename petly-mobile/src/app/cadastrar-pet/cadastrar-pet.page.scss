@@ -1,0 +1,30 @@
+.foto-upload {
+  width: 120px;
+  height: 120px;
+  background-color: #e0e0e0;
+  border-radius: 50%; /* Deixa redondo */
+  margin: 20px auto; /* Centraliza */
+  overflow: hidden;
+  position: relative;
+  border: 4px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-placeholder {
+  text-align: center;
+  color: #666;
+  
+  p {
+    font-size: 0.7rem;
+    margin: 0;
+  }
+}
