@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Novo Pet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <form (ngSubmit)="salvarPet()">
+    <ion-list>
+      
+      <ion-item>
+        <ion-label position="floating">Nome do Pet</ion-label>
+        <ion-input [(ngModel)]="pet.nome" name="nome" type="text" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Espécie</ion-label>
+        <ion-select [(ngModel)]="pet.especie" name="especie">
+          <ion-select-option value="cachorro">Cachorro</ion-select-option>
+          <ion-select-option value="gato">Gato</ion-select-option>
+          <ion-select-option value="outro">Outro</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Porte</ion-label>
+        <ion-select [(ngModel)]="pet.porte" name="porte">
+          <ion-select-option value="pequeno">Pequeno</ion-select-option>
+          <ion-select-option value="medio">Médio</ion-select-option>
+          <ion-select-option value="grande">Grande</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Idade (anos)</ion-label>
+        <ion-input [(ngModel)]="pet.idade" name="idade" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descrição</ion-label>
+        <ion-textarea [(ngModel)]="pet.descricao" name="descricao" rows="3"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="block" type="submit" color="secondary" class="ion-margin-top">
+      Salvar Pet
+    </ion-button>
+  </form>
+
+</ion-content>

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { addIcons } from 'ionicons'; 
+import { add } from 'ionicons/icons';
+
 
 @Component({
   selector: 'app-home',
@@ -21,9 +24,10 @@ export class HomePage implements OnInit {
   // URL da API de listagem
   apiUrl = this.baseUrl + '/pets/api/listar/';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    addIcons({ add });
+  }
 
-  // ionViewWillEnter roda toda vez que a tela aparece (melhor que ngOnInit para listas)
   ionViewWillEnter() {
     this.buscarPets();
   }

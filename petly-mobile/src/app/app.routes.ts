@@ -21,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'detalhes-pet/:id',
     loadComponent: () => import('./detalhes-pet/detalhes-pet.page').then( m => m.DetalhesPetPage)
+  },  {
+    path: 'cadastrar-pet',
+    loadComponent: () => import('./cadastrar-pet/cadastrar-pet.page').then( m => m.CadastrarPetPage)
   },
+
 
 ];
