@@ -30,17 +30,23 @@
     <ion-card-content>
       {{ pet.descricao }}
       
-      <ion-button expand="full" fill="outline" class="ion-margin-top" color="tertiary">
-        Ver Detalhes
-      </ion-button>
+      <ion-button [routerLink]="['/detalhes-pet', pet.id]" expand="full" fill="outline" class="ion-margin-top" color="secondary">
+      Ver Detalhes
+       </ion-button>
     </ion-card-content>
   </ion-card>
 
   <div *ngIf="pets.length === 0" class="ion-text-center ion-padding ion-margin-top">
     <ion-text color="medium">
-      <p>Nenhum pet encontrado... 😢</p>
+      <p>Nenhum pet encontrado...</p>
       <small>Verifique se o Django está rodando!</small>
     </ion-text>
   </div>
+ 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="secondary" routerLink="/cadastrar-pet">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
-</ion-content>
+  </ion-content>
