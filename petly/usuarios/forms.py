@@ -15,7 +15,7 @@ class CadastroForm(UserCreationForm):
     cidade = forms.CharField(
         max_length=100, 
         label="Cidade",
-        required=False, # O script preenche, então pode ser opcional na validação inicial
+        required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'cidade', 'readonly': 'readonly'})
     )
     bairro = forms.CharField(
@@ -33,7 +33,6 @@ class CadastroForm(UserCreationForm):
 
     class Meta:
         model = User
-        # Adicionamos os campos novos na ordem que devem aparecer
         fields = ("username", "email", "telefone", "cep", "cidade", "bairro", "uf")
 
     def save(self, commit=True):
@@ -42,7 +41,6 @@ class CadastroForm(UserCreationForm):
         
         if commit:
             user.save()
-            # AQUI SALVAMOS TUDO NO PERFIL
             Perfil.objects.create(
                 usuario=user, 
                 telefone=self.cleaned_data["telefone"],

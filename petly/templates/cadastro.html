@@ -9,42 +9,36 @@
     <style>
         body {
             background-color: #e9ecef;
-            /* Mudamos para min-height para evitar cortar em telas pequenas se o form ficar alto */
             min-height: 100vh; 
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px 0; /* Um pouco de espaço em cima e embaixo */
+            padding: 20px 0;
         }
         
         .login-card {
             width: 100%;
-            /* AUMENTAMOS A LARGURA MÁXIMA para caber as duas colunas */
             max-width: 900px; 
             border-radius: 15px;
             border: none;
-            overflow: hidden; /* Garante que a imagem não vaze os cantos arredondados */
+            overflow: hidden;
         }
 
         .login-header {
             background-color: #e9e5db;
             color: white;
-            /* Removemos o border-radius superior aqui, pois o card já cuida disso com overflow:hidden */
             padding: 20px;
             text-align: center;
         }
 
-        /* --- NOVO CSS PARA A IMAGEM LATERAL --- */
+
         .side-image {
-             /* Garante que a imagem ocupe toda a altura e largura da coluna */
             height: 100%;
             width: 100%;
-            /* Faz a imagem cobrir o espaço sem distorcer (corta as bordas se necessário) */
             object-fit: cover; 
             object-position: center;
         }
 
-        /* --- CSS ANTIGO (MANTIDO) --- */
         .btn-custom { background-color: #e9e5db; border-color: #e9e5db; color: white; }
         .btn-custom:hover { filter: brightness(90%); color: white; }
         input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; }
