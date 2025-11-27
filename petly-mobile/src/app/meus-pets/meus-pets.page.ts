@@ -32,14 +32,29 @@ export class MeusPetsPage implements OnInit {
 
   ngOnInit() {}
 
-  buscarMeusPets() {
-    // 1. Pega o ID do usuário que salvamos no Login
+buscarMeusPets() {
+    // 1. Pega o ID salvo
     const userId = localStorage.getItem('user_id');
+    console.log('--- DEBUG MEUS PETS ---');
+    console.log('Meu ID salvo no celular:', userId);
 
-    this.http.get<any[]>(this.baseUrl + '/pets/api/listar/').subscribe(todosPets => {
-      // 2. Filtra: Só quero os pets onde 'usuario' == meu ID
-      // O '==' compara número com texto sem problemas no JS
-      this.meusPets = todosPets.filter(pet => pet.usuario == userId);
+    this.http.get<any[]>(this.baseUrl + '/pets/api/listar/').subscribe({
+      next: (todosPets) => {
+        console.log('Lista completa que veio da API:', todosPets);
+
+        // 2. Filtra
+        // O filtro verifica: O campo 'usuario' do pet é igual ao meu 'userId'?
+        this.meusPets = todosPets.filter(pet => {
+          // Vamos ver cada comparação no console
+          // console.log(`Comparando pet ${pet.id}: Dono ${pet.usuario} == Eu ${userId}?`);
+          return pet.usuario == userId;
+        });
+
+        console.log('Lista FINAL filtrada:', this.meusPets);
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar api:', erro);
+      }
     });
   }
 

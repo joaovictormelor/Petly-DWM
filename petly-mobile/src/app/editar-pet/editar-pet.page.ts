@@ -59,25 +59,37 @@ export class EditarPetPage implements OnInit {
     });
   }
 
-  async salvarEdicao() {
+async salvarEdicao() {
     const loader = await this.loading.create({ message: 'Salvando...' });
     await loader.present();
 
-    // 3. Envia os dados atualizados (PUT)
-    this.http.put(this.baseUrl + '/pets/api/gerenciar/' + this.petId + '/', this.pet).subscribe({
+    // 1. Criamos uma cópia dos dados para não estragar a tela
+    const dadosParaEnviar = { ...this.pet };
+
+    // 2. REMOVEMOS A FOTO E OS DADOS EXTRAS DO PACOTE
+    // Se mandarmos a URL da foto (texto) para o Django, ele trava.
+    delete dadosParaEnviar.foto; 
+    delete dadosParaEnviar.dono_email;
+    delete dadosParaEnviar.dono_telefone;
+    delete dadosParaEnviar.cidade;
+    delete dadosParaEnviar.uf;
+
+    // 3. Mudamos de PUT para PATCH (Atualização Parcial)
+    this.http.patch(this.baseUrl + '/pets/api/gerenciar/' + this.petId + '/', dadosParaEnviar).subscribe({
       next: async (res) => {
         await loader.dismiss();
         this.exibirMensagem('Pet atualizado com sucesso!');
-        this.router.navigate(['/tabs/meus-pets']); // Volta para a lista
+        this.router.navigate(['/tabs/meus-pets']);
       },
       error: async (erro) => {
         await loader.dismiss();
         console.error(erro);
+        // Dica: Imprime o erro detalhado no console para a gente ver se persistir
+        console.log(JSON.stringify(erro.error)); 
         this.exibirMensagem('Erro ao atualizar.', 'danger');
       }
     });
   }
-
   async exibirMensagem(msg: string, cor: string = 'success') {
     const t = await this.toast.create({ message: msg, color: cor, duration: 2000 });
     t.present();

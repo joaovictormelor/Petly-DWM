@@ -7,6 +7,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from rest_framework import generics
 from .serializers import PetSerializer
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
@@ -96,3 +97,7 @@ class CriarPetAPI(generics.CreateAPIView):
             serializer.save(usuario=dono)
         else:
             serializer.save(usuario=self.request.user)
+
+class GerenciarPetAPI(RetrieveUpdateDestroyAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
