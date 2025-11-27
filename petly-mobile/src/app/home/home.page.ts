@@ -1,0 +1,57 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule],
+})
+export class HomePage implements OnInit {
+
+  pets: any[] = []; // Aqui guardaremos a lista de pets
+  
+  // URL base do Django (para completar o link das fotos)
+  baseUrl = 'http://127.0.0.1:8000'; 
+  
+  // URL da API de listagem
+  apiUrl = this.baseUrl + '/pets/api/listar/';
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  // ionViewWillEnter roda toda vez que a tela aparece (melhor que ngOnInit para listas)
+  ionViewWillEnter() {
+    this.buscarPets();
+  }
+
+  ngOnInit() {}
+
+  buscarPets() {
+    this.http.get<any[]>(this.apiUrl).subscribe({
+      next: (dados) => {
+        console.log("Pets carregados:", dados);
+        this.pets = dados;
+      },
+      error: (erro) => {
+        console.error("Erro ao buscar pets:", erro);
+      }
+    });
+  }
+
+  // Função para arrumar o link da foto
+  ajustarImagem(caminhoFoto: string): string {
+    if (!caminhoFoto) return ''; // Se não tiver foto, retorna vazio
+    if (caminhoFoto.startsWith('http')) return caminhoFoto; // Se já for completo, mantém
+    return this.baseUrl + caminhoFoto; // Se for relativo, cola o endereço do servidor
+  }
+
+  logout() {
+    // Limpa o ID salvo e volta pro login
+    localStorage.removeItem('user_id');
+    this.router.navigate(['/login']);
+  }
+}
