@@ -7,7 +7,9 @@ from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from rest_framework import generics
 from .serializers import PetSerializer
-
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 def listar_pets(request):
     pets = Pet.objects.all()
@@ -39,7 +41,6 @@ def meus_pets(request):
         'pets': pets,
     }
     
-    #reaproveita a tela listar
     return render(request, 'meus_pets.html', contexto)
 
 class NovoPet(LoginRequiredMixin, CreateView):
@@ -76,5 +77,27 @@ class DetalhesPet(DetailView):
     context_object_name = 'pet'
     
 class ListaPetsAPI(generics.ListAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+
+class DetalhesPetAPI(generics.RetrieveAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+
+class CriarPetAPI(generics.CreateAPIView):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+    
+    def perform_create(self, serializer):
+        id_do_dono = self.request.data.get('usuario')
+        
+        print(f"Tentando cadastrar pet para o usuário ID: {id_do_dono}")
+        if id_do_dono:
+            dono = get_object_or_404(User, pk=id_do_dono)
+            serializer.save(usuario=dono)
+        else:
+            serializer.save(usuario=self.request.user)
+
+class GerenciarPetAPI(RetrieveUpdateDestroyAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer

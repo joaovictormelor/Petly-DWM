@@ -35,7 +35,11 @@ class TestViewListarMeusPets(TestCase):
             self.user = User.objects.create_user(username='usuario_teste', password='123')
             self.client.force_login(self.user)
 
-            Pet.objects.create(usuario=self.user, nome='Mimi', especie='gato', idade=2, porte='pequeno')
+            Pet.objects.create(usuario=self.user,
+                               nome='Mimi', 
+                               especie='gato', 
+                               idade=2, 
+                               porte='pequeno')
 
             self.url = reverse('meus_pets')
     
@@ -57,11 +61,13 @@ class TestViewCriarPet(TestCase):
         self.client.force_login(self.user)
         self.url = reverse('novo_pet')
     
+
     def test_get_form(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], PetForm)
     
+
     def test_post_criar(self):
         dados = {
             'nome': 'Totó',
@@ -75,7 +81,6 @@ class TestViewCriarPet(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('meus_pets'))
-
         self.assertEqual(Pet.objects.count(), 1)
         self.assertEqual(Pet.objects.first().nome, 'Totó')
         self.assertEqual(Pet.objects.first().usuario, self.user)
@@ -89,7 +94,11 @@ class TestViewEditarPet(TestCase):
         self.user = User.objects.create_user(username='usuario_teste', password='123')
         self.client.force_login(self.user)
 
-        self.pet = Pet.objects.create(usuario=self.user, nome='Gatinho', especie='gato', idade=1, porte='pequeno', descricao='gatinho fofo')
+        self.pet = Pet.objects.create(usuario=self.user, nome='Gatinho', 
+                                      especie='gato', 
+                                      idade=1, 
+                                      porte='pequeno', 
+                                      descricao='gatinho fofo')
         self.url = reverse('editar_pet', kwargs={'pk': self.pet.pk})
     
     def test_get_editar(self):
@@ -122,7 +131,10 @@ class TestViewDeletarPet(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='usuario_teste', password='123')
         self.client.force_login(self.user)
-        self.pet = Pet.objects.create(usuario=self.user, nome='Para Deletar', especie='gato', idade=5, porte='medio')
+        self.pet = Pet.objects.create(usuario=self.user, nome='Para Deletar', 
+                                      especie='gato', 
+                                      idade=5, 
+                                      porte='medio')
         self.url = reverse('excluir_pet', kwargs={'pk': self.pet.pk})
 
     def test_post_deletar(self):

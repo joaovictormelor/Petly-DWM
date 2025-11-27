@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// Importamos os componentes VISUAIS um por um (Mais seguro para Standalone)
 import { IonContent, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonText, ToastController, LoadingController } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,7 +10,6 @@ import { Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  // Adicionamos todos os componentes visuais aqui na lista 👇
   imports: [IonContent, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonText, CommonModule, FormsModule]
 })
 export class LoginPage implements OnInit {

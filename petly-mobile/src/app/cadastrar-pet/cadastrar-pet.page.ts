@@ -5,7 +5,9 @@ import { IonicModule, ToastController, LoadingController } from '@ionic/angular'
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
+import { add, camera } from 'ionicons/icons';
+
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-cadastrar-pet',
@@ -16,7 +18,6 @@ import { add } from 'ionicons/icons';
 })
 export class CadastrarPetPage implements OnInit {
 
-  // Objeto para guardar os dados do formulário
   pet = {
     nome: '',
     especie: 'cachorro',
@@ -25,6 +26,9 @@ export class CadastrarPetPage implements OnInit {
     descricao: ''
   };
 
+  fotoPreview: string = '';
+  fotoBlob: Blob | null = null;
+
   baseUrl = 'http://127.0.0.1:8000'; 
 
   constructor(
@@ -32,49 +36,74 @@ export class CadastrarPetPage implements OnInit {
     private router: Router,
     private toast: ToastController,
     private loading: LoadingController
-  ) { }
+  ) { 
+    addIcons({ camera });66
+  }
 
   ngOnInit() { }
+
+  async tirarFoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt
+      });
+
+      this.fotoPreview = image.webPath!;
+
+      const response = await fetch(image.webPath!);
+      this.fotoBlob = await response.blob();
+
+    } catch (error) {
+      console.log('Usuário cancelou a foto ou deu erro');
+    }
+  }
 
 async salvarPet() {
     const loader = await this.loading.create({ message: 'Salvando...' });
     await loader.present();
 
-    // 1. PEGAMOS O ID DO USUÁRIO SALVO NO LOGIN
     const idUsuario = localStorage.getItem('user_id');
 
-    // 2. MONTAMOS O PACOTE COMPLETO
-    // O ...this.pet copia os dados do formulário (nome, idade, etc)
-    // E adicionamos o campo 'usuario' manualmente
-    const dadosParaEnviar = {
-      ...this.pet,
-      usuario: idUsuario
-    };
+    if (!idUsuario) {
+      await loader.dismiss();
+      this.exibirMensagem('Erro: Usuário não identificado. Faça login novamente.', 'danger');
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    console.log('Enviando:', dadosParaEnviar); // Para você conferir no console
+    const formData = new FormData();
+    formData.append('usuario', idUsuario); 
+    
+    formData.append('nome', this.pet.nome);
+    formData.append('especie', this.pet.especie);
+    formData.append('porte', this.pet.porte);
+    formData.append('idade', this.pet.idade.toString());
+    formData.append('descricao', this.pet.descricao);
 
-    this.http.post(this.baseUrl + '/pets/api/criar/', dadosParaEnviar).subscribe({
+    if (this.fotoBlob) {
+      formData.append('foto', this.fotoBlob, 'pet.jpg'); 
+    }
+
+    this.http.post(this.baseUrl + '/pets/api/criar/', formData).subscribe({
       next: async (res) => {
         await loader.dismiss();
         this.exibirMensagem('Pet cadastrado com sucesso!');
-        this.router.navigate(['/tabs/meus-pets']); // Volta para a aba certa
+        this.router.navigate(['/tabs/meus-pets']);
       },
       error: async (erro) => {
         await loader.dismiss();
         console.error(erro);
-        this.exibirMensagem('Erro ao salvar.', 'danger');
+        const msgErro = erro.error?.erro || 'Erro ao salvar. Tente novamente.';
+        this.exibirMensagem(msgErro, 'danger');
       }
     });
   }
 
   async exibirMensagem(msg: string, cor: string = 'success') {
-    const t = await this.toast.create({ 
-      message: msg, 
-      color: cor, 
-      duration: 2000,
-      position: 'bottom'
-    });
+    const t = await this.toast.create({ message: msg, color: cor, duration: 2000 });
     t.present();
   }
-
 }

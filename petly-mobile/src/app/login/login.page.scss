@@ -1,4 +1,3 @@
-// Centraliza tudo na tela verticalmente
 .login-container {
   display: flex;
   flex-direction: column;
@@ -6,27 +5,24 @@
   min-height: 100%; 
 }
 
-// Estilo do Título
 .titulo-petly {
-  color: #ede8d0; /* Mudei para VERDE para dar contraste no fundo branco */
-  /* Se deixar #ede8d0 no título com fundo branco, ele some! */
+  color: #ede8d0;
   font-weight: bold;
   font-size: 2.5rem;
   margin-bottom: 0;
 }
 
-// Estilo do Botão Personalizado
+
 .btn-laranja {
-  /* MUDANÇA AQUI 👇 */
-  --background: #ede8d0;       /* Cor de fundo Bege */
-  --background-hover: #d1cccb; /* Cor quando passa o mouse (um pouco mais escura) */
-  --color: #000000;            /* Texto PRETO (para dar leitura) */
+  --background: #ede8d0;       
+  --background-hover: #d1cccb;
+  --color: #000000;            
   
   --border-radius: 8px;
   font-weight: bold;
 }
 
-// Ajuste do Card
+
 ion-card {
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   border-radius: 16px;

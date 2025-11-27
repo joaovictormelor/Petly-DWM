@@ -1,5 +1,5 @@
 .foto-container {
-  height: 200px; /* Altura fixa para todas as fotos */
+  height: 200px;
   width: 100%;
   overflow: hidden;
   background-color: #f0f0f0;
@@ -10,7 +10,7 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que a imagem preencha sem distorcer */
+    object-fit: cover;
   }
 }
 

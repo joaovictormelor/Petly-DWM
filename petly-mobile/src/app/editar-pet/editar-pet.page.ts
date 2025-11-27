@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router'; // Para pegar o ID e navegar
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,7 +14,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EditarPetPage implements OnInit {
 
-  // Objeto que guarda os dados (começa vazio)
   pet: any = {
     nome: '',
     especie: '',
@@ -35,10 +34,8 @@ export class EditarPetPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // 1. Pega o ID da URL
     this.petId = this.route.snapshot.paramMap.get('id');
     
-    // 2. Busca os dados atuais para preencher o formulário
     this.carregarDados();
   }
 
@@ -49,7 +46,7 @@ export class EditarPetPage implements OnInit {
     this.http.get(this.baseUrl + '/pets/api/gerenciar/' + this.petId + '/').subscribe({
       next: async (dados: any) => {
         await loader.dismiss();
-        this.pet = dados; // O formulário vai se preencher sozinho!
+        this.pet = dados;
       },
       error: async (erro) => {
         await loader.dismiss();
@@ -59,25 +56,32 @@ export class EditarPetPage implements OnInit {
     });
   }
 
-  async salvarEdicao() {
+async salvarEdicao() {
     const loader = await this.loading.create({ message: 'Salvando...' });
     await loader.present();
 
-    // 3. Envia os dados atualizados (PUT)
-    this.http.put(this.baseUrl + '/pets/api/gerenciar/' + this.petId + '/', this.pet).subscribe({
+    const dadosParaEnviar = { ...this.pet };
+
+    delete dadosParaEnviar.foto; 
+    delete dadosParaEnviar.dono_email;
+    delete dadosParaEnviar.dono_telefone;
+    delete dadosParaEnviar.cidade;
+    delete dadosParaEnviar.uf;
+
+    this.http.patch(this.baseUrl + '/pets/api/gerenciar/' + this.petId + '/', dadosParaEnviar).subscribe({
       next: async (res) => {
         await loader.dismiss();
         this.exibirMensagem('Pet atualizado com sucesso!');
-        this.router.navigate(['/tabs/meus-pets']); // Volta para a lista
+        this.router.navigate(['/tabs/meus-pets']);
       },
       error: async (erro) => {
         await loader.dismiss();
         console.error(erro);
+        console.log(JSON.stringify(erro.error)); 
         this.exibirMensagem('Erro ao atualizar.', 'danger');
       }
     });
   }
-
   async exibirMensagem(msg: string, cor: string = 'success') {
     const t = await this.toast.create({ message: msg, color: cor, duration: 2000 });
     t.present();

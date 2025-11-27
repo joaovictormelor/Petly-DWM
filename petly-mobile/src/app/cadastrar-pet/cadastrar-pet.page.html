@@ -10,6 +10,16 @@
 <ion-content class="ion-padding">
   
   <form (ngSubmit)="salvarPet()">
+
+   <div class="foto-upload" (click)="tirarFoto()">
+      <img [src]="fotoPreview" *ngIf="fotoPreview" class="foto-img">
+      
+      <div *ngIf="!fotoPreview" class="foto-placeholder">
+        <ion-icon name="camera" size="large"></ion-icon>
+        <p>Adicionar Foto</p>
+      </div>
+    </div> 
+
     <ion-list>
       
       <ion-item>

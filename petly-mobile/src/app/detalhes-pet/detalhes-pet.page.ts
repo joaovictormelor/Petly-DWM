@@ -18,7 +18,7 @@ import { locationOutline, callOutline, mailOutline, paw } from 'ionicons/icons';
 })
 export class DetalhesPetPage implements OnInit {
 
-  pet: any = null; // Começa vazio
+  pet: any = null;
   baseUrl = 'http://127.0.0.1:8000'; // Ajuste o IP se for Android físico
 
   constructor(

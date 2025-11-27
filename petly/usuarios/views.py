@@ -12,8 +12,9 @@ from .models import Perfil
 
 
 class Login(View):
-    #class based view para autenticação de usuarios
-
+    """
+    classe para fazer o login do usuario
+    """
     def get(self, request):
         contexto = {}
         if request.user.is_authenticated:
@@ -21,15 +22,11 @@ class Login(View):
         else:
             return render(request, 'autenticacao.html', contexto)
 
-
-
     def post(self, request):
-        #obetem credecniais de autenticação
         usuario = request.POST.get('usuario', None)
         senha = request.POST.get('senha', None)
 
 
-       # verifica as credencias fornecidas
         user = authenticate(request, username=usuario,password=senha)
         if user is not None:
             if user.is_active:
@@ -43,7 +40,7 @@ class Login(View):
 
 class Logout(View):
     """
-    class based view para realizar logout de usuarios
+    classe view para realizar logout de usuarios
     """         
     def get(self, request):
         logout(request)
@@ -75,21 +72,17 @@ class LoginAPI(APIView):
 
 class CadastroAPI(APIView):
     def post(self, request):
-        # 1. Pega os dados enviados pelo Ionic
         usuario_txt = request.data.get('username')
         email_txt = request.data.get('email')
         senha_txt = request.data.get('password')
         telefone_txt = request.data.get('telefone')
 
-        # 2. Validação básica (ver se o usuário já existe)
         if User.objects.filter(username=usuario_txt).exists():
             return Response({'erro': 'Este nome de usuário já existe!'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # 3. Cria o Usuário
             novo_user = User.objects.create_user(username=usuario_txt, password=senha_txt, email=email_txt)
             
-            # 4. Cria o Perfil (para salvar o telefone)
             Perfil.objects.create(usuario=novo_user, telefone=telefone_txt)
 
             return Response({'mensagem': 'Usuário criado com sucesso!'}, status=status.HTTP_201_CREATED)

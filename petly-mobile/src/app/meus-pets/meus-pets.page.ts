@@ -32,14 +32,24 @@ export class MeusPetsPage implements OnInit {
 
   ngOnInit() {}
 
-  buscarMeusPets() {
-    // 1. Pega o ID do usuário que salvamos no Login
+buscarMeusPets() {
     const userId = localStorage.getItem('user_id');
+    console.log('--- DEBUG MEUS PETS ---');
+    console.log('Meu ID salvo no celular:', userId);
 
-    this.http.get<any[]>(this.baseUrl + '/pets/api/listar/').subscribe(todosPets => {
-      // 2. Filtra: Só quero os pets onde 'usuario' == meu ID
-      // O '==' compara número com texto sem problemas no JS
-      this.meusPets = todosPets.filter(pet => pet.usuario == userId);
+    this.http.get<any[]>(this.baseUrl + '/pets/api/listar/').subscribe({
+      next: (todosPets) => {
+        console.log('Lista completa que veio da API:', todosPets);
+
+        this.meusPets = todosPets.filter(pet => {
+          return pet.usuario == userId;
+        });
+
+        console.log('Lista FINAL filtrada:', this.meusPets);
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar api:', erro);
+      }
     });
   }
 
@@ -59,12 +69,12 @@ export class MeusPetsPage implements OnInit {
     await alert.present();
   }
 
-  // 2. Manda a ordem para o Django
+
   excluirPet(id: number) {
     this.http.delete(this.baseUrl + '/pets/api/gerenciar/' + id + '/').subscribe({
       next: () => {
         this.exibirMensagem('Pet excluído com sucesso!');
-        this.buscarMeusPets(); // Recarrega a lista para sumir o pet
+        this.buscarMeusPets();
       },
       error: (erro) => {
         console.error(erro);
