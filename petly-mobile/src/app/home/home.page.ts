@@ -16,12 +16,12 @@ import { add } from 'ionicons/icons';
 })
 export class HomePage implements OnInit {
 
-  pets: any[] = []; // Aqui guardaremos a lista de pets
+  pets: any[] = [];
   
-  // URL base do Django (para completar o link das fotos)
+  
   baseUrl = 'http://127.0.0.1:8000'; 
   
-  // URL da API de listagem
+
   apiUrl = this.baseUrl + '/pets/api/listar/';
 
   constructor(private http: HttpClient, private router: Router) {
@@ -49,15 +49,13 @@ buscarPets() {
     });
   }
 
-  // Função para arrumar o link da foto
   ajustarImagem(caminhoFoto: string): string {
-    if (!caminhoFoto) return ''; // Se não tiver foto, retorna vazio
-    if (caminhoFoto.startsWith('http')) return caminhoFoto; // Se já for completo, mantém
-    return this.baseUrl + caminhoFoto; // Se for relativo, cola o endereço do servidor
+    if (!caminhoFoto) return '';
+    if (caminhoFoto.startsWith('http')) return caminhoFoto;
+    return this.baseUrl + caminhoFoto;
   }
 
   logout() {
-    // Limpa o ID salvo e volta pro login
     localStorage.removeItem('user_id');
     this.router.navigate(['/login']);
   }

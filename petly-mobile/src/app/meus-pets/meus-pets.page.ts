@@ -33,7 +33,6 @@ export class MeusPetsPage implements OnInit {
   ngOnInit() {}
 
 buscarMeusPets() {
-    // 1. Pega o ID salvo
     const userId = localStorage.getItem('user_id');
     console.log('--- DEBUG MEUS PETS ---');
     console.log('Meu ID salvo no celular:', userId);
@@ -42,11 +41,7 @@ buscarMeusPets() {
       next: (todosPets) => {
         console.log('Lista completa que veio da API:', todosPets);
 
-        // 2. Filtra
-        // O filtro verifica: O campo 'usuario' do pet é igual ao meu 'userId'?
         this.meusPets = todosPets.filter(pet => {
-          // Vamos ver cada comparação no console
-          // console.log(`Comparando pet ${pet.id}: Dono ${pet.usuario} == Eu ${userId}?`);
           return pet.usuario == userId;
         });
 
@@ -74,12 +69,12 @@ buscarMeusPets() {
     await alert.present();
   }
 
-  // 2. Manda a ordem para o Django
+
   excluirPet(id: number) {
     this.http.delete(this.baseUrl + '/pets/api/gerenciar/' + id + '/').subscribe({
       next: () => {
         this.exibirMensagem('Pet excluído com sucesso!');
-        this.buscarMeusPets(); // Recarrega a lista para sumir o pet
+        this.buscarMeusPets();
       },
       error: (erro) => {
         console.error(erro);

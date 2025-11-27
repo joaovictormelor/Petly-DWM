@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { home, paw } from 'ionicons/icons'; // Ícones da barra
+import { home, paw } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
@@ -15,7 +15,7 @@ import { home, paw } from 'ionicons/icons'; // Ícones da barra
 export class TabsPage implements OnInit {
 
   constructor() {
-    addIcons({ home, paw }); // Registra os ícones
+    addIcons({ home, paw });
   }
 
   ngOnInit() { }

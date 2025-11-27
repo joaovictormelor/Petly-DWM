@@ -46,12 +46,11 @@ export class CadastroPage implements OnInit {
       next: async (res) => {
         await loading.dismiss();
         this.exibirMensagem('Conta criada com sucesso!', 'success');
-        this.router.navigate(['/login']); // Volta pro login
+        this.router.navigate(['/login']);
       },
       error: async (erro) => {
         await loading.dismiss();
         console.error(erro);
-        // Tenta pegar a mensagem de erro do Django, se não, usa genérica
         const msg = erro.error.erro || 'Erro ao criar conta.';
         this.exibirMensagem(msg, 'danger');
       }
